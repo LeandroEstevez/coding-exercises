@@ -5,7 +5,11 @@
  */
 package coding.exercises;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -18,7 +22,15 @@ public class CodingExercises {
      */
     public static void main(String[] args) {
         
+        int[] nums1 = {1,2,2,2,1};
+        int[] nums2 = {2,2,3,5,1};
+        int[] result = intersect(nums1, nums2);
         
+        for(int i = 0; i < result.length; i++) {
+            
+            System.out.println(result[i]);
+            
+        }
         
     }
     
@@ -75,7 +87,7 @@ public class CodingExercises {
      * @param nums
      * @return 
      */
-    public boolean containsDuplicate(int[] nums) {
+    public static boolean containsDuplicate(int[] nums) {
         
         Arrays.sort(nums);
         
@@ -99,7 +111,7 @@ public class CodingExercises {
      * @param nums
      * @return 
      */
-    public int singleNumber(int[] nums) {
+    public static int singleNumber(int[] nums) {
         
         Arrays.sort(nums);
         
@@ -118,6 +130,102 @@ public class CodingExercises {
         }
         
         return nums[i];
+        
+    }
+    
+    /**
+     * Given two arrays, it compute their intersection
+     * @param nums1 array number one
+     * @param nums2 array number two
+     * @return intersection of the two arrays
+     */
+    public static int[] intersect(int[] nums1, int[] nums2) {
+        
+        int l = 0;
+        
+        Map<Integer, Integer> arrNums1 = new TreeMap<>();
+            
+        for (int i = 0; i < nums1.length; i++) {
+
+            if (arrNums1.get(nums1[i]) == null) {
+
+                arrNums1.put(nums1[i], 1);
+
+            } else {
+
+                arrNums1.put(nums1[i], arrNums1.get(nums1[i]) + 1);
+
+            }
+
+        }
+        
+        List<Integer> intersections = new ArrayList<>();
+        
+        Arrays.sort(nums2);
+        
+        int nums1Reps = 0;
+        int nums2Reps = 0;
+        int lastOneDone = 0;
+        
+        for(int i = 0; i < nums2.length; i++) {
+            
+            if(arrNums1.get(nums2[i]) != null) {
+                        
+                if(!intersections.contains(nums2[i])) {
+                    
+                    intersections.add(nums2[i]);
+                   
+                    if(intersections.size() != 1) {
+                       
+                       if(nums1Reps < nums2Reps ) {
+                           arrNums1.put(lastOneDone, nums1Reps);
+                           l = l + nums1Reps;
+                       } else {
+                           arrNums1.put(lastOneDone, nums2Reps);
+                           l = l + nums2Reps;
+                       }
+                       
+                    }
+                   
+                    nums1Reps = arrNums1.get(nums2[i]);
+                    nums2Reps = 0;
+                   
+                    lastOneDone = nums2[i];
+
+                }
+                
+                arrNums1.put(nums2[i], arrNums1.get(nums2[i]) + 1);
+                nums2Reps++;
+                
+            }
+            
+            if(i == nums2.length - 1) {
+                if(nums1Reps < nums2Reps ) {
+                    arrNums1.put(lastOneDone, nums1Reps);
+                    l = l + nums1Reps;
+                } else {
+                    arrNums1.put(lastOneDone, nums2Reps);
+                    l = l + nums2Reps;
+                }
+            }
+            
+        }
+        
+        int[] result = new int[l];
+        int o = 0;
+        
+        for(int i = 0; i < intersections.size(); i++) {
+            
+            for(int j = 0; j < arrNums1.get(intersections.get(i)); j++) {
+                
+                result[o] = intersections.get(i);
+                o++;
+                
+            }
+            
+        }
+        
+        return result;
         
     }
     
