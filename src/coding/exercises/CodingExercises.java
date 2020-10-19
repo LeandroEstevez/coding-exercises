@@ -7,8 +7,10 @@ package coding.exercises;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
@@ -22,9 +24,11 @@ public class CodingExercises {
      */
     public static void main(String[] args) {
         
-        int[] number = {9, 9};
+        int[] arr = {3, 3};
         
-        int[] result = plusOne(number);
+        int target = 6;
+        
+        int[] result = twoSum(arr, target);
         
         for(int i = 0; i < result.length; i++) {
             System.out.println(result[i]);
@@ -275,6 +279,48 @@ public class CodingExercises {
         }
         
         return digits;
+        
+    }
+    
+    /**
+     * Given an array of integers nums and an integer target, 
+     * return indices of the two numbers such that they add up to target
+     * @param nums
+     * @param target
+     * @return 
+     */
+    public static int[] twoSum(int[] nums, int target) {
+        
+        ArrayList<Integer> smallerNumbersIndex = new ArrayList<>();
+        
+        ArrayList<Integer> numsArrList = new ArrayList<>();
+        
+        int[] result = new int[2];
+        
+        for(int i = 0; i < nums.length; i++) {
+            
+            numsArrList.add(nums[i]);
+            
+            if(nums[i] <= target) {
+                smallerNumbersIndex.add(i);
+            }
+            
+        }
+        
+        for(int i = 0; i < smallerNumbersIndex.size(); i++) {
+            
+            int otherNum = target - nums[smallerNumbersIndex.get(i)];
+            
+            if(numsArrList.contains(otherNum)) {
+                
+                result[0] = smallerNumbersIndex.get(i);
+                result[0] = numsArrList.indexOf(otherNum);
+                
+            }
+            
+        }
+        
+        return result;
         
     }
     
