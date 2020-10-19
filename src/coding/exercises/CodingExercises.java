@@ -22,14 +22,12 @@ public class CodingExercises {
      */
     public static void main(String[] args) {
         
-        int[] nums1 = {1,2,2,2,1};
-        int[] nums2 = {2,2,3,5,1};
-        int[] result = intersect(nums1, nums2);
+        int[] number = {9, 9};
+        
+        int[] result = plusOne(number);
         
         for(int i = 0; i < result.length; i++) {
-            
             System.out.println(result[i]);
-            
         }
         
     }
@@ -226,6 +224,57 @@ public class CodingExercises {
         }
         
         return result;
+        
+    }
+    
+    /**
+     * Given a non-empty array of digits representing a non-negative integer, 
+     * increment one to the integer.
+     * @param digits array of digits
+     * @return result of sum by one
+     */
+    public static int[] plusOne(int[] digits) {
+        
+        int[] result;
+
+        for(int i = digits.length - 1; i >= 0; i--) {
+            
+            if(digits[i] == 9) {
+                
+                if(i == 0) {
+                    digits[i] = 0;
+                    result = new int[digits.length + 1];
+                    result[0] = 1;
+                    System.arraycopy(digits, 0, result, 1, digits.length);
+                    
+                    return result;
+                }
+                
+                if(digits.length == 1) {
+                    
+                    result = new int[2];
+                    result[0] = 1;
+                    result[1] = 0;
+                    
+                    return result;
+                    
+                } else {
+                    
+                    digits[i] = 0;
+                    
+                }
+                
+            } else {
+                
+                digits[i] = digits[i] + 1;
+                
+                break;
+                
+            }
+            
+        }
+        
+        return digits;
         
     }
     
